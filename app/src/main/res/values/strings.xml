@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">ORI Planner</string>
+
+    <string name="nav_sprint">Sprints</string>
+    <string name="nav_task">Tasks</string>
+    <string name="nav_goal">Goals</string>
+
+    <string name="button_confirm">Save</string>
+    <string name="button_delete">Yes</string>
+    <string name="button_cancel">Cancel</string>
+
+    <string name="desc_sprint">
+        Sprints represent a daily effort to do great things.
+        Set ambitious goals and work to achieve more throughout the day!
+    </string>
+    <string name="hint_sprint">
+        Hint: Didn\'t quite hit the mark?
+        Edit a Sprint to reset its due date.
+    </string>
+
+    <string name="desc_task">
+        Tasks represent a backlog of responsibilities and scheduled events.
+        Never forget anything again!
+        Examples include doctor appointments, filing your taxes, and finishing an essay.
+        Hint: Seem like too much to tackle?
+        Nest multiple tasks inside of a goal to make tasks less daunting.
+    </string>
+    <string name="hint_task"></string>
+</resources>
