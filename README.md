@@ -45,4 +45,30 @@ Instead of a single achievable item, Goals are meant to hold multiple Tasks and 
 This helps to make large, daunting tasks more manageable.
 You can also use these goals to visualize the steps needed to achieve something great.
 For example, hit your fitness goals by getting a gym membership, exercising thrice in a week (using Sprints to motivate yourself), and learning a new healthy recipe.
-Think of Goals like HIKING. It will take a lot of WALKING, but you'll eventually end up wherever you want to go.
+Think of Goals like HIKING.
+It will take a lot of WALKING, but you'll eventually end up wherever you want to go.
+
+## Fellow Learners
+
+Developing this app was a product of passion, but it was also an opportunity to learn how to develop android applications.
+In this section, I'll be explaining some about the very basics concerning how the code is designed and how it works.
+
+### Navigating the Code
+
+To get to the bulk of the code, the navigation path is:
+
+> app > src > main > java > com > yyttrium > oriplanner
+
+Here, you'll find two folders, labeled *data* and *ui*, and three loose files.
+
+### Tools
+
+Everything here was written in Kotlin, with some minor tweaks to the XML in the *AppManifest* and basic queries in SQL.
+The app uses Jetpack, which is a suite of tools provided by Google for Android development.
+The tools used in this app include:
+
+- Compose, for UI development
+- Room, for database management
+- Hilt, to manage dependency injection
+- Lifecycle, to dynamically query only necessary data
+- Navigation (not yet implemented, but planned)
