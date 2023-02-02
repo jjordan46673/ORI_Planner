@@ -1,38 +1,39 @@
 package com.yyttrium.oriplanner.ui.components
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DirectionsRun
-import androidx.compose.material.icons.filled.DirectionsWalk
-import androidx.compose.material.icons.filled.Hiking
+import androidx.compose.material.icons.rounded.DirectionsRun
+import androidx.compose.material.icons.rounded.DirectionsWalk
+import androidx.compose.material.icons.rounded.Hiking
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavDestination
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.yyttrium.oriplanner.R
-import com.yyttrium.oriplanner.ui.theme.ORIPlannerTheme
 
 @Composable
 fun Navigation(
     modifier: Modifier = Modifier,
-    navSelection: Nav,
+    currentDestination: NavDestination?,
     onSprintsClicked: () -> Unit,
     onTasksClicked: () -> Unit,
     onGoalsClicked: () -> Unit,
 ) {
-
     NavigationBar(modifier = modifier) {
 
-        // Sprints
+        // sprints
         NavigationBarItem(
-            selected = (navSelection == Nav.Sprint),
+            selected = (currentDestination?.route == Screen.SprintView.route),
             onClick = onSprintsClicked,
             icon = {
                 Icon(
-                    imageVector = Icons.Filled.DirectionsRun,
+                    imageVector = Icons.Rounded.DirectionsRun,
                     contentDescription = null
                 )
             },
@@ -44,13 +45,13 @@ fun Navigation(
             },
         )
 
-        // Tasks
+        // tasks
         NavigationBarItem(
-            selected = (navSelection == Nav.Task),
+            selected = (currentDestination?.route == Screen.TaskView.route),
             onClick = onTasksClicked,
             icon = {
                 Icon(
-                    imageVector = Icons.Filled.DirectionsWalk,
+                    imageVector = Icons.Rounded.DirectionsWalk,
                     contentDescription = null
                 )
             },
@@ -62,13 +63,13 @@ fun Navigation(
             },
         )
 
-        // Goals
+        // goals
         NavigationBarItem(
-            selected = (navSelection == Nav.Goal),
+            selected = (currentDestination?.route == Screen.GoalView.route),
             onClick = onGoalsClicked,
             icon = {
                 Icon(
-                    imageVector = Icons.Filled.Hiking,
+                    imageVector = Icons.Rounded.Hiking,
                     contentDescription = null
                 )
             },
@@ -78,20 +79,6 @@ fun Navigation(
                     text = stringResource(id = R.string.nav_goal)
                 )
             },
-        )
-    }
-
-}
-
-@Preview
-@Composable
-fun PreviewNavigation() {
-    ORIPlannerTheme {
-        Navigation(
-            navSelection = Nav.Sprint,
-            onSprintsClicked = { },
-            onTasksClicked = { },
-            onGoalsClicked = { }
         )
     }
 }

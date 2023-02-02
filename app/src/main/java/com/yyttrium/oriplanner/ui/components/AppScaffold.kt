@@ -7,84 +7,137 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.yyttrium.oriplanner.data.IGoalViewModel
 import com.yyttrium.oriplanner.data.ISprintViewModel
 import com.yyttrium.oriplanner.data.ITaskViewModel
-import com.yyttrium.oriplanner.data.Sprint
 
-enum class Nav {
-    Sprint, Task, Goal
+sealed class Screen(val route: String) {
+    object SprintView: Screen("SprintView")
+
+    // Concatenate ID to end of string to complete route
+    object SprintInsert: Screen("SprintInsert/")
+    object TaskView: Screen("TaskView")
+    object TaskInsert: Screen("TaskInsert")
+    object GoalView: Screen("GoalView")
+    object GoalInsert: Screen("GoalInsert")
 }
 
-enum class Dlg {
-    AddSprint, EditSprint, RemoveSprint,
-    AddTask, EditTask, RemoveTask,
-    AddGoal, EditGoal, RemoveGoal,
-    TaskGoalAssociate, Close
-}
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppScaffold(
     modifier: Modifier = Modifier,
     sprintViewModel: ISprintViewModel,
     taskViewModel: ITaskViewModel,
-    goalViewModel: IGoalViewModel
+    goalViewModel: IGoalViewModel,
 ) {
-    var NavSelection by rememberSaveable { mutableStateOf(Nav.Sprint) }
-    var DlgSelection by rememberSaveable { mutableStateOf(Dlg.Close) }
+    val navController = rememberNavController()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
 
     Scaffold(
         modifier = modifier,
+
         topBar = {
             Header()
         },
+
         bottomBar = {
             Navigation(
-                navSelection = NavSelection,
-                onSprintsClicked = { NavSelection = Nav.Sprint },
-                onTasksClicked = { NavSelection = Nav.Task },
-                onGoalsClicked = { NavSelection = Nav.Goal }
+                currentDestination = currentDestination,
+
+                onSprintsClicked = {
+                    navController.navigate(Screen.SprintView.route) {
+                        // Don't navigate to if already at
+                        launchSingleTop = true
+                    }
+                },
+                onTasksClicked = {
+                    navController.navigate(Screen.TaskView.route) {
+                        launchSingleTop = true
+                    }
+                },
+                onGoalsClicked = {
+                    navController.navigate(Screen.GoalView.route) {
+                        launchSingleTop = true
+                    }
+                }
             )
         },
+
         floatingActionButton = {
-            FloatingActionButton(
-                // TODO change onClick
-                onClick = {
-                    DlgSelection = Dlg.AddSprint
-                },
-                modifier = Modifier,
+            if (
+                arrayOf(Screen.SprintView.route, Screen.TaskView.route, Screen.GoalView.route)
+                    .any { it == currentDestination?.route }
             ) {
-                Icon(
-                    imageVector = Icons.Filled.Add,
-                    contentDescription = "add item",
-                    modifier = Modifier
-                )
+                //TODO button disappears when scrolling down
+                FloatingActionButton(
+                    onClick = {
+                        if (currentDestination?.route == Screen.SprintView.route) {
+                            navController.navigate(
+                                route = Screen.SprintInsert.route + (0.toString())
+                            ) {
+                                launchSingleTop = true
+                            }
+                        }
+                    },
+                    modifier = Modifier,
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Add,
+                        contentDescription = "add item",
+                        modifier = Modifier
+                    )
+                }
             }
         },
+
         floatingActionButtonPosition = FabPosition.End,
-        //containerColor = ,
-        //contentColor = ,
+
         content = { innerPadding ->
             Surface(
                 modifier = Modifier.padding(innerPadding)
             ) {
-                when (NavSelection) {
-                    Nav.Sprint -> {
-                        SprintView(sprintViewModel)
-                    }
-                    Nav.Task -> {
-                        TaskView(taskViewModel)
-                    }
-                    Nav.Goal -> {
-                        GoalView(goalViewModel)
-                    }
-                }
-                if (DlgSelection == Dlg.AddSprint) {
-                    AddSprintView(
-                        sprintViewModel = sprintViewModel,
-                        closeDialog = { DlgSelection = Dlg.Close}
+                // Navigation host
+                NavHost(
+                    navController = navController,
+                    startDestination = Screen.SprintView.route
+                ) {
+                    // Sprint View
+                    composable(
+                        route = Screen.SprintView.route,
+                        content = { SprintView(sprintViewModel, navController) }
+                    )
+
+                    // Sprint Insert, with Router
+                    composable(
+                        route = Screen.SprintInsert.route + "{id}",
+                        arguments = listOf(navArgument("id") { type = NavType.IntType }),
+                        content = { backStackEntry ->
+                            SprintInsert(
+                                sprintViewModel = sprintViewModel,
+                                id = backStackEntry.arguments!!.getInt("id"),
+                                navController = navController
+                            )
+                        }
+                    )
+
+                    // Task View
+                    composable(
+                        route = Screen.TaskView.route,
+                        content = { TaskView(taskViewModel) }
+                    )
+
+                    // Goal View
+                    composable(
+                        route = Screen.GoalView.route,
+                        content = { GoalView(goalViewModel) }
                     )
                 }
             }

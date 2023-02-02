@@ -14,7 +14,7 @@ data class Sprint (
     @ColumnInfo(name = "id") var sprintId: Int = 0,
     @ColumnInfo(name = "name") val sprintName: String,
     @ColumnInfo(name = "description") val sprintDesc: String? = null,
-    // date set to String to accommodate Room, must convert to and from Long
+    // TODO what is the best datatype for this?
     @ColumnInfo(name = "due_date") val sprintDue: String,
     @ColumnInfo(name = "complete") val sprintComp: Boolean = false,
 )
@@ -25,7 +25,7 @@ data class Task (
     @ColumnInfo(name = "id") var taskId: Int = 0,
     @ColumnInfo(name = "name") val taskName: String,
     @ColumnInfo(name = "description") val taskDesc: String? = null,
-    // date set to String to accommodate Room, must convert to and from Long
+    // TODO what is the best datatype for this?
     @ColumnInfo(name = "due_date") val taskDue: String,
     @ColumnInfo(name = "complete") val taskComp: Boolean = false,
 )
@@ -38,6 +38,9 @@ data class Goal (
     @ColumnInfo(name = "description") val goalDesc: String?,
 )
 
+// TODO is this useful?
 fun getCalendar(): Calendar {
     return Calendar.getInstance()
 }
+
+// TODO conjoined table for task/goal

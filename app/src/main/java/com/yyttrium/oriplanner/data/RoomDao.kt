@@ -10,13 +10,14 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SprintDao {
-    // order sprints by title
-    @Query("SELECT * FROM sprints ORDER BY name")
+    // order sprints by due_date, title
+    @Query("SELECT * FROM sprints ORDER BY due_date, name")
     fun getAll(): Flow<List<Sprint>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(sprint: Sprint)
 
+    // TODO remove update and insert.replace instead?
     @Update
     suspend fun update(sprint: Sprint)
 
