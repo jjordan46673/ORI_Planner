@@ -45,4 +45,13 @@ Instead of a single achievable item, Goals are meant to hold multiple Tasks and 
 This helps to make large, daunting tasks more manageable.
 You can also use these goals to visualize the steps needed to achieve something great.
 For example, hit your fitness goals by getting a gym membership, exercising thrice in a week (using Sprints to motivate yourself), and learning a new healthy recipe.
-Think of Goals like HIKING. It will take a lot of WALKING, but you'll eventually end up wherever you want to go.
+Think of Goals like HIKING.
+It will take a lot of WALKING, but you'll eventually end up wherever you want to go.
+
+## For My Fellows
+
+Developing this app was a product of passion, but it was also an opportunity to learn how to develop android applications.
+In this section, I'll be explaining some about the very basics concerning how the code is designed and how it works.
+
+### Navigating the Code
+
