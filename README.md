@@ -4,7 +4,7 @@ developed by: Justin Jordan
 
 platform: Android
 
-version: 0.1 (pre-alpha)
+version: 0.1.1 pre-alpha
 
 ## A New hORIzon
 
@@ -71,4 +71,4 @@ The tools used in this app include:
 - Room, for database management
 - Hilt, to manage dependency injection
 - Lifecycle, to dynamically query only necessary data
-- Navigation (not yet implemented, but planned)
+- Navigation, to handle screen changes
