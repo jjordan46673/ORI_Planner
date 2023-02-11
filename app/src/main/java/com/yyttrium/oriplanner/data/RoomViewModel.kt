@@ -11,21 +11,18 @@ import javax.inject.Inject
 interface ISprintViewModel {
     val getAll: Flow<List<Sprint>>
     fun insert(sprint: Sprint)
-    fun update(sprint: Sprint)
     fun delete(sprint: Sprint)
 }
 
 interface ITaskViewModel {
     val getAll: Flow<List<Task>>
     fun insert(task: Task)
-    fun update(task: Task)
     fun delete(task: Task)
 }
 
 interface IGoalViewModel {
     val getAll: Flow<List<Goal>>
     fun insert(goal: Goal)
-    fun update(goal: Goal)
     fun delete(goal: Goal)
 }
 
@@ -43,12 +40,6 @@ class SprintViewModel
     override fun insert(sprint: Sprint) {
         ioScope.launch {
             sprintRepository.insert(sprint)
-        }
-    }
-
-    override fun update(sprint: Sprint) {
-        ioScope.launch {
-            sprintRepository.update(sprint)
         }
     }
 
@@ -76,12 +67,6 @@ class TaskViewModel
         }
     }
 
-    override fun update(task: Task) {
-        ioScope.launch {
-            taskRepository.update(task)
-        }
-    }
-
     override fun delete(task: Task) {
         ioScope.launch {
             taskRepository.delete(task)
@@ -103,12 +88,6 @@ class GoalViewModel
     override fun insert(goal: Goal) {
         ioScope.launch {
             goalRepository.insert(goal)
-        }
-    }
-
-    override fun update(goal: Goal) {
-        ioScope.launch {
-            goalRepository.update(goal)
         }
     }
 

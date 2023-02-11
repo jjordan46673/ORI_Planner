@@ -17,10 +17,6 @@ interface SprintDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(sprint: Sprint)
 
-    // TODO remove update and insert.replace instead?
-    @Update
-    suspend fun update(sprint: Sprint)
-
     @Delete
     suspend fun delete(sprint: Sprint)
 }
@@ -31,11 +27,8 @@ interface TaskDao {
     @Query("SELECT * FROM tasks ORDER BY complete, due_date, name")
     fun getAll(): Flow<List<Task>>
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(task: Task)
-
-    @Update
-    suspend fun update(task: Task)
 
     @Delete
     suspend fun delete(task: Task)
@@ -47,11 +40,8 @@ interface GoalDao {
     @Query("SELECT * FROM goals ORDER BY name")
     fun getAll(): Flow<List<Goal>>
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(goal: Goal)
-
-    @Update
-    suspend fun update(goal: Goal)
 
     @Delete
     suspend fun delete(goal: Goal)

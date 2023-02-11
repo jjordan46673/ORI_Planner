@@ -19,12 +19,11 @@ import com.yyttrium.oriplanner.data.ISprintViewModel
 import com.yyttrium.oriplanner.data.ITaskViewModel
 
 sealed class Screen(val route: String) {
-    object SprintView: Screen("SprintView")
-
     // Concatenate ID to end of string to complete route
+    object SprintView: Screen("SprintView")
     object SprintInsert: Screen("SprintInsert/")
     object TaskView: Screen("TaskView")
-    object TaskInsert: Screen("TaskInsert")
+    object TaskInsert: Screen("TaskInsert/")
     object GoalView: Screen("GoalView")
     object GoalInsert: Screen("GoalInsert")
 }
@@ -76,12 +75,18 @@ fun AppScaffold(
                 arrayOf(Screen.SprintView.route, Screen.TaskView.route, Screen.GoalView.route)
                     .any { it == currentDestination?.route }
             ) {
-                //TODO button disappears when scrolling down
+                // TODO button disappears when scrolling down
                 FloatingActionButton(
                     onClick = {
                         if (currentDestination?.route == Screen.SprintView.route) {
                             navController.navigate(
-                                route = Screen.SprintInsert.route + (0.toString())
+                                route = Screen.SprintInsert.route + "0"
+                            ) {
+                                launchSingleTop = true
+                            }
+                        } else if (currentDestination?.route == Screen.TaskView.route) {
+                            navController.navigate(
+                                route = Screen.TaskInsert.route + "0"
                             ) {
                                 launchSingleTop = true
                             }
@@ -131,7 +136,20 @@ fun AppScaffold(
                     // Task View
                     composable(
                         route = Screen.TaskView.route,
-                        content = { TaskView(taskViewModel) }
+                        content = { TaskView(taskViewModel, navController) }
+                    )
+
+                    // Task Insert, with Router
+                    composable(
+                        route = Screen.TaskInsert.route + "{id}",
+                        arguments = listOf(navArgument("id") { type = NavType.IntType }),
+                        content = { backStackEntry ->
+                            TaskInsert(
+                                taskViewModel = taskViewModel,
+                                id = backStackEntry.arguments!!.getInt("id"),
+                                navController = navController
+                            )
+                        }
                     )
 
                     // Goal View
