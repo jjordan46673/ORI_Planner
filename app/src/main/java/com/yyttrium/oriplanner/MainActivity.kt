@@ -4,8 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.ui.Modifier
 import com.yyttrium.oriplanner.data.GoalViewModel
 import com.yyttrium.oriplanner.data.SprintViewModel
 import com.yyttrium.oriplanner.data.TaskViewModel
@@ -26,10 +24,9 @@ class MainActivity: ComponentActivity() {
         setContent {
             ORIPlannerTheme {
                 AppScaffold(
-                    Modifier.fillMaxSize(),
-                    sprintViewModel,
-                    taskViewModel,
-                    goalViewModel
+                    sprintViewModel = sprintViewModel,
+                    taskViewModel = taskViewModel,
+                    goalViewModel = goalViewModel
                 )
             }
         }

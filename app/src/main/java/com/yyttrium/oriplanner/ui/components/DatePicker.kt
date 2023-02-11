@@ -20,6 +20,7 @@ fun DatePicker(
     onDateSelected: (String) -> Unit,
     selectedDate: String
 ) {
+    // TODO format to personal preference
     Dialog(
         onDismissRequest = { onDateSelected(selectedDate) },
         properties = DialogProperties(
@@ -87,7 +88,7 @@ fun CustomCalendarView(
         update = { views ->
             views.date = (LocalDate.parse(selectedDate).toEpochDay() + 1) * 86400000
 
-            views.setOnDateChangeListener { calendarView, year, month, day ->
+            views.setOnDateChangeListener { _, year, month, day ->
                 onDateSelected(
                     LocalDate
                         .now()
@@ -124,4 +125,3 @@ fun formatDate(date: String): String {
     output += date.substring(0,4)
     return output
 }
-

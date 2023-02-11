@@ -1,13 +1,22 @@
 <resources>
+    <!--AndroidManifest.xml Dependency-->
     <string name="app_name">ORI Planner</string>
 
+    <!--Icon Captions-->
+    <string name="icon_back">navigate back</string>
+    <string name="icon_settings">navigate to settings</string>
+    <string name="icon_fab">add item</string>
+
+    <!--Navigation Bar-->
     <string name="nav_sprint">Sprints</string>
     <string name="nav_task">Tasks</string>
     <string name="nav_goal">Goals</string>
 
+    <!--ItemInsert Buttons-->
     <string name="button_confirm">Save</string>
     <string name="button_cancel">Cancel</string>
 
+    <!--SprintInsert Greetings-->
     <string name="desc_sprint">
         Sprints represent a daily effort to do great things.
         Set ambitious goals and work to achieve more throughout the day.
@@ -17,10 +26,10 @@
         Edit a Sprint to reset its due date.
     </string>
 
+    <!--TaskInsert Greetings-->
     <string name="desc_task">
         Tasks represent a record of responsibilities with a set due date.
         Keep track of the things that need done and focus on what really matters.
-
     </string>
     <string name="hint_task">
         Hint: Seem like too much to tackle?

@@ -3,8 +3,6 @@
 package com.yyttrium.oriplanner.ui.components
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -17,21 +15,23 @@ import androidx.navigation.navArgument
 import com.yyttrium.oriplanner.data.IGoalViewModel
 import com.yyttrium.oriplanner.data.ISprintViewModel
 import com.yyttrium.oriplanner.data.ITaskViewModel
+import com.yyttrium.oriplanner.ui.components.content.*
 
 sealed class Screen(val route: String) {
-    // Concatenate ID to end of string to complete route
     object SprintView: Screen("SprintView")
-    object SprintInsert: Screen("SprintInsert/")
     object TaskView: Screen("TaskView")
-    object TaskInsert: Screen("TaskInsert/")
     object GoalView: Screen("GoalView")
-    object GoalInsert: Screen("GoalInsert")
+
+    // Concatenate ID to end of string to complete route
+    object SprintInsert: Screen("SprintInsert/")
+    object TaskInsert: Screen("TaskInsert/")
+    object GoalInsert: Screen("GoalInsert/")
+
+    object Settings: Screen("Settings")
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppScaffold(
-    modifier: Modifier = Modifier,
     sprintViewModel: ISprintViewModel,
     taskViewModel: ITaskViewModel,
     goalViewModel: IGoalViewModel,
@@ -41,20 +41,18 @@ fun AppScaffold(
     val currentDestination = navBackStackEntry?.destination
 
     Scaffold(
-        modifier = modifier,
-
         topBar = {
-            Header()
+            OriTopAppBar(
+                settingsSelected = (currentDestination?.route == Screen.Settings.route)
+            )
         },
 
         bottomBar = {
-            Navigation(
+            OriNavigationBar(
                 currentDestination = currentDestination,
-
                 onSprintsClicked = {
                     navController.navigate(Screen.SprintView.route) {
-                        // Don't navigate to if already at
-                        launchSingleTop = true
+                        launchSingleTop = true // Don't navigate if already at
                     }
                 },
                 onTasksClicked = {
@@ -76,30 +74,24 @@ fun AppScaffold(
                     .any { it == currentDestination?.route }
             ) {
                 // TODO button disappears when scrolling down
-                FloatingActionButton(
+                OriFloatingActionButton(
                     onClick = {
-                        if (currentDestination?.route == Screen.SprintView.route) {
-                            navController.navigate(
-                                route = Screen.SprintInsert.route + "0"
-                            ) {
-                                launchSingleTop = true
-                            }
-                        } else if (currentDestination?.route == Screen.TaskView.route) {
-                            navController.navigate(
-                                route = Screen.TaskInsert.route + "0"
-                            ) {
-                                launchSingleTop = true
-                            }
+                        when (currentDestination?.route) {
+                            Screen.SprintView.route ->
+                                navController.navigate(Screen.SprintInsert.route + "0") {
+                                    launchSingleTop = true
+                                }
+                            Screen.TaskView.route ->
+                                navController.navigate(Screen.TaskInsert.route + "0") {
+                                    launchSingleTop = true
+                                }
+                            Screen.GoalView.route ->
+                                navController.navigate(Screen.GoalInsert.route + "0") {
+                                    launchSingleTop = true
+                                }
                         }
-                    },
-                    modifier = Modifier,
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Add,
-                        contentDescription = "add item",
-                        modifier = Modifier
-                    )
-                }
+                    }
+                )
             }
         },
 
@@ -120,7 +112,7 @@ fun AppScaffold(
                         content = { SprintView(sprintViewModel, navController) }
                     )
 
-                    // Sprint Insert, with Router
+                    // Sprint Insert
                     composable(
                         route = Screen.SprintInsert.route + "{id}",
                         arguments = listOf(navArgument("id") { type = NavType.IntType }),
@@ -139,7 +131,7 @@ fun AppScaffold(
                         content = { TaskView(taskViewModel, navController) }
                     )
 
-                    // Task Insert, with Router
+                    // Task Insert
                     composable(
                         route = Screen.TaskInsert.route + "{id}",
                         arguments = listOf(navArgument("id") { type = NavType.IntType }),
@@ -155,8 +147,16 @@ fun AppScaffold(
                     // Goal View
                     composable(
                         route = Screen.GoalView.route,
-                        content = { GoalView(goalViewModel) }
+                        content = {
+                            GoalView(
+                                goalViewModel,
+                                taskViewModel,
+                                navController
+                            )
+                        }
                     )
+
+                    // Goal Insert
                 }
             }
         }
