@@ -4,14 +4,14 @@ developed by: Justin Jordan
 
 platform: Android
 
-version: 0.1 (pre-alpha)
+version: 0.1.1 pre-alpha
 
 ## A New hORIzon
 
 I don't know about you, but I'm about as scatter-brained as it gets!
 I'm constantly making a mess, I forget to feed myself, and I'm still waiting for Tile to make a glasses accessory.
 Now I'm no scientologist: I can't fix your noggin, or mine for that matter.
-However, I understand what it's like, and I made a little something to help.
+However, I understand what it's like to feel a bit overwhelmed by life, and I made a little something to help.
 
 ## ORIginal Design
 
@@ -24,9 +24,9 @@ Instead of a bORIng checklist, ORI divides our to-do lists into three parts:
 
 ### Sprints: reORIent
 
-Sprints are daily goals set at the beginning of the day.
-Ideally, while sipping your morning coffee, you can reflect on what you want to achieve throughout the day and record it in ORI.
-It could be a responsibility, like you just remembered it's trash day, or you know the floor needs vacuumed before guests arrive this evening.
+Sprints are goals set at the beginning of the day.
+Ideally, while sipping your morning coffee, you can reflect on what you want to achieve by the day's end and record it in ORI.
+It could be a responsibility, like you just remembered it's trash day, or you know the floor needs vacuumed before family arrives for dinner tonight.
 It could also be a personal goal, such as hitting the gym or giving someone a compliment.
 Think of Sprints like RUNNING towards a daily success.
 
@@ -50,8 +50,8 @@ It will take a lot of WALKING, but you'll eventually end up wherever you want to
 
 ## Fellow Learners
 
-Developing this app was a product of passion, but it was also an opportunity to learn how to develop android applications.
-In this section, I'll be explaining some about the very basics concerning how the code is designed and how it works.
+This app was a product of passion, but it was also an opportunity to learn how to develop android applications.
+In this section, I'll be taking notes about what I've learned in hopes of helping someone else understand.
 
 ### Navigating the Code
 
@@ -63,12 +63,12 @@ Here, you'll find two folders, labeled *data* and *ui*, and three loose files.
 
 ### Tools
 
-Everything here was written in Kotlin, with some minor tweaks to the XML in the *AppManifest* and basic queries in SQL.
+Everything here was written in Kotlin, aside from some minor tweaks in XML and basic queries in SQL.
 The app uses Jetpack, which is a suite of tools provided by Google for Android development.
 The tools used in this app include:
 
-- Compose, for UI development
-- Room, for database management
-- Hilt, to manage dependency injection
-- Lifecycle, to dynamically query only necessary data
-- Navigation (not yet implemented, but planned)
+- Compose, a complete UI framework that helps adhere to Material 3 Design standards
+- Room, which generates and queries a local database, and sets up for web queries in the future
+- Hilt, to manage the icky dependency injection in the background (and my hero)
+- Lifecycle, which dynamically queries only necessary data and takes a load off the hardware
+- Navigation, to handle changes in the UI and pass information between views
