@@ -1,4 +1,4 @@
-package com.yyttrium.oriplanner.ui.components
+package com.yyttrium.oriplanner.ui.compose
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -26,7 +26,7 @@ fun OriFloatingActionButton(
 
 @Preview
 @Composable
-fun PreviewFab() {
+fun PreviewFloatingActionButton() {
     ORIPlannerTheme() {
         OriFloatingActionButton {}
     }

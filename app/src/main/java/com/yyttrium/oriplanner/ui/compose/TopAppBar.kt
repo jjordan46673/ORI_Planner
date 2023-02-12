@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.yyttrium.oriplanner.ui.components
+package com.yyttrium.oriplanner.ui.compose
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
@@ -49,7 +49,7 @@ fun OriTopAppBar(
 
 @Preview
 @Composable
-fun PreviewTabHome() {
+fun PreviewTopAppBarHome() {
     ORIPlannerTheme {
         OriTopAppBar(
             settingsSelected = false
@@ -59,7 +59,7 @@ fun PreviewTabHome() {
 
 @Preview
 @Composable
-fun PreviewTabSettings() {
+fun PreviewTopAppBarSettings() {
     ORIPlannerTheme {
         OriTopAppBar(
             settingsSelected = true

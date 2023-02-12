@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.yyttrium.oriplanner.ui.components.content
+package com.yyttrium.oriplanner.ui.compose.content
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.yyttrium.oriplanner.R
 import com.yyttrium.oriplanner.data.*
-import com.yyttrium.oriplanner.ui.components.Screen
+import com.yyttrium.oriplanner.ui.compose.Screen
 import java.time.LocalDate
 
 @Composable

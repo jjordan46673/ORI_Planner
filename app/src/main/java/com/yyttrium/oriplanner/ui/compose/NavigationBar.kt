@@ -1,4 +1,4 @@
-package com.yyttrium.oriplanner.ui.components
+package com.yyttrium.oriplanner.ui.compose
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DirectionsRun
@@ -63,7 +63,7 @@ fun OriNavigationBar(
 
 @Preview
 @Composable
-fun PreviewNavNone() {
+fun PreviewNavigationBarNoneSelected() {
     ORIPlannerTheme() {
         val preNav = NavDestination("")
         preNav.route = "FakeDestination"
@@ -79,7 +79,7 @@ fun PreviewNavNone() {
 
 @Preview
 @Composable
-fun PreviewNavSprint() {
+fun PreviewNavigationBarSprint() {
     ORIPlannerTheme() {
         val preNav = NavDestination("")
         preNav.route = "SprintView"
@@ -95,7 +95,7 @@ fun PreviewNavSprint() {
 
 @Preview
 @Composable
-fun PreviewNavTask() {
+fun PreviewNavigationBarTask() {
     ORIPlannerTheme() {
         val preNav = NavDestination("")
         preNav.route = "TaskView"
@@ -111,7 +111,7 @@ fun PreviewNavTask() {
 
 @Preview
 @Composable
-fun PreviewNavGoal() {
+fun PreviewNavigationBarGoal() {
     ORIPlannerTheme() {
         val preNav = NavDestination("")
         preNav.route = "GoalView"

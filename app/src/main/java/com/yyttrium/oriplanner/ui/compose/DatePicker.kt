@@ -1,4 +1,4 @@
-package com.yyttrium.oriplanner.ui.components
+package com.yyttrium.oriplanner.ui.compose
 
 import android.view.ContextThemeWrapper
 import android.widget.CalendarView

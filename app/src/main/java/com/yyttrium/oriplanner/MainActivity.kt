@@ -7,7 +7,7 @@ import androidx.activity.viewModels
 import com.yyttrium.oriplanner.data.GoalViewModel
 import com.yyttrium.oriplanner.data.SprintViewModel
 import com.yyttrium.oriplanner.data.TaskViewModel
-import com.yyttrium.oriplanner.ui.components.AppScaffold
+import com.yyttrium.oriplanner.ui.compose.AppScaffold
 import com.yyttrium.oriplanner.ui.theme.ORIPlannerTheme
 import dagger.hilt.android.AndroidEntryPoint
 

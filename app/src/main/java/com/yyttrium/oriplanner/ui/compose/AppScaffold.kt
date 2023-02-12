@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.yyttrium.oriplanner.ui.components
+package com.yyttrium.oriplanner.ui.compose
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
@@ -15,7 +15,7 @@ import androidx.navigation.navArgument
 import com.yyttrium.oriplanner.data.IGoalViewModel
 import com.yyttrium.oriplanner.data.ISprintViewModel
 import com.yyttrium.oriplanner.data.ITaskViewModel
-import com.yyttrium.oriplanner.ui.components.content.*
+import com.yyttrium.oriplanner.ui.compose.content.*
 
 sealed class Screen(val route: String) {
     object SprintView: Screen("SprintView")
@@ -30,6 +30,7 @@ sealed class Screen(val route: String) {
     object Settings: Screen("Settings")
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppScaffold(
     sprintViewModel: ISprintViewModel,
