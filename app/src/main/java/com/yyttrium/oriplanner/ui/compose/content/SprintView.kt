@@ -30,7 +30,7 @@ fun SprintView(
 
             Row(
                 modifier = Modifier
-                    .padding(vertical = 4.dp, horizontal = 8.dp)
+                    .padding(horizontal = 8.dp, vertical = 4.dp)
                     .animateContentSize(
                         animationSpec = spring(
                             dampingRatio = Spring.DampingRatioLowBouncy,
@@ -42,8 +42,8 @@ fun SprintView(
                 Box(modifier = Modifier.weight(1f)) {
                     OriCard(
                         expanded = expanded,
-                        overdue = (sprint.sprintDue == LocalDate.now().toString()),
-                        title = sprint.sprintName,
+                        overdue = (sprint.sprintDue != LocalDate.now().toString()),
+                        name = sprint.sprintName,
                         desc = sprint.sprintDesc,
                         onClick = { expanded = !expanded },
                         onLongClick = {

@@ -22,7 +22,7 @@ fun OriNavigationBar(
     onTasksClicked: () -> Unit,
     onGoalsClicked: () -> Unit,
 ) {
-    NavigationBar() {
+    NavigationBar {
         NavigationBarItem(
             selected = (currentDestination?.route == Screen.SprintView.route),
             onClick = onSprintsClicked,
@@ -64,7 +64,7 @@ fun OriNavigationBar(
 @Preview
 @Composable
 fun PreviewNavigationBarNoneSelected() {
-    ORIPlannerTheme() {
+    ORIPlannerTheme {
         val preNav = NavDestination("")
         preNav.route = "FakeDestination"
 
@@ -80,7 +80,7 @@ fun PreviewNavigationBarNoneSelected() {
 @Preview
 @Composable
 fun PreviewNavigationBarSprint() {
-    ORIPlannerTheme() {
+    ORIPlannerTheme {
         val preNav = NavDestination("")
         preNav.route = "SprintView"
 
@@ -96,7 +96,7 @@ fun PreviewNavigationBarSprint() {
 @Preview
 @Composable
 fun PreviewNavigationBarTask() {
-    ORIPlannerTheme() {
+    ORIPlannerTheme {
         val preNav = NavDestination("")
         preNav.route = "TaskView"
 
@@ -112,7 +112,7 @@ fun PreviewNavigationBarTask() {
 @Preview
 @Composable
 fun PreviewNavigationBarGoal() {
-    ORIPlannerTheme() {
+    ORIPlannerTheme {
         val preNav = NavDestination("")
         preNav.route = "GoalView"
 

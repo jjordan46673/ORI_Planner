@@ -58,7 +58,7 @@ fun OriCheckbox(
 @Preview
 @Composable
 fun PreviewCheckboxCollapsedUnchecked() {
-    ORIPlannerTheme() {
+    ORIPlannerTheme {
         OriCheckbox(
             checked = false,
             expanded = false,
@@ -70,8 +70,21 @@ fun PreviewCheckboxCollapsedUnchecked() {
 
 @Preview
 @Composable
+fun PreviewCheckboxCollapsedChecked() {
+    ORIPlannerTheme {
+        OriCheckbox(
+            checked = true,
+            expanded = false,
+            onCheckedChange = {},
+            onDelete = {}
+        )
+    }
+}
+
+@Preview
+@Composable
 fun PreviewCheckboxExpandedUnchecked() {
-    ORIPlannerTheme() {
+    ORIPlannerTheme {
         OriCheckbox(
             checked = false,
             expanded = true,
@@ -83,8 +96,8 @@ fun PreviewCheckboxExpandedUnchecked() {
 
 @Preview
 @Composable
-fun PreviewCheckboxCollapsedChecked() {
-    ORIPlannerTheme() {
+fun PreviewCheckboxExpandedChecked() {
+    ORIPlannerTheme {
         OriCheckbox(
             checked = true,
             expanded = true,

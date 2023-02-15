@@ -29,5 +29,5 @@ data class Goal (
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id") var goalId: Int = 0,
     @ColumnInfo(name = "name") val goalName: String,
-    @ColumnInfo(name = "description") val goalDesc: String?,
+    @ColumnInfo(name = "description") val goalDesc: String? = null,
 )

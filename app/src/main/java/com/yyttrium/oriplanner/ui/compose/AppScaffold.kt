@@ -158,6 +158,17 @@ fun AppScaffold(
                     )
 
                     // Goal Insert
+                    composable(
+                        route = Screen.GoalInsert.route + "{id}",
+                        arguments = listOf(navArgument("id") { type = NavType.IntType }),
+                        content = { backStackEntry ->
+                            GoalInsert(
+                                goalViewModel = goalViewModel,
+                                id = backStackEntry.arguments!!.getInt("id"),
+                                navController = navController
+                            )
+                        }
+                    )
                 }
             }
         }

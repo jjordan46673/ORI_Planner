@@ -27,7 +27,7 @@ fun GoalView(
 
             OriCard(
                 expanded = expanded,
-                title = goal.goalName,
+                name = goal.goalName,
                 desc = goal.goalDesc,
                 progress = 0.6f,
                 onClick = { expanded = !expanded },

@@ -30,7 +30,7 @@ fun TaskView(
 
             Row(
                 modifier = Modifier
-                    .padding(vertical = 4.dp, horizontal = 8.dp)
+                    .padding(horizontal = 8.dp, vertical = 4.dp)
                     .animateContentSize(
                         animationSpec = spring(
                             dampingRatio = Spring.DampingRatioLowBouncy,
@@ -42,8 +42,8 @@ fun TaskView(
                 Box(modifier = Modifier.weight(1f)) {
                     OriCard(
                         expanded = expanded,
-                        overdue = ((task.taskDue.compareTo(LocalDate.now().toString())) >= 0),
-                        title = task.taskName,
+                        overdue = ((task.taskDue.compareTo(LocalDate.now().toString())) < 0),
+                        name = task.taskName,
                         desc = task.taskDesc,
                         due = task.taskDue.drop(5),
                         onClick = { expanded = !expanded },

@@ -1,23 +1,20 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.yyttrium.oriplanner.ui.compose.content
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.EditCalendar
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.yyttrium.oriplanner.R
 import com.yyttrium.oriplanner.data.*
-import com.yyttrium.oriplanner.ui.compose.DatePicker
 import com.yyttrium.oriplanner.ui.compose.Screen
-import com.yyttrium.oriplanner.ui.compose.formatDate
+import com.yyttrium.oriplanner.ui.compose.content.components.OriDateDialog
+import com.yyttrium.oriplanner.ui.compose.content.components.OriDateField
+import com.yyttrium.oriplanner.ui.compose.content.components.OriInsertFields
+import com.yyttrium.oriplanner.ui.compose.content.components.OriInsertNav
 import java.time.LocalDate
 
 @Composable
@@ -26,7 +23,7 @@ fun TaskInsert(
     id: Int,
     navController: NavController
 ) {
-    var showDatePicker by remember { mutableStateOf(false) }
+    var showDateDialog by remember { mutableStateOf(false) }
     val allTasks by taskViewModel.getAll.collectAsState(initial = listOf())
 
     fun findTask(id: Int): Task {
@@ -70,109 +67,46 @@ fun TaskInsert(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(
-                text = if (TaskId == 0) "Add Task" else "Edit Task",
-                modifier = Modifier.padding(4.dp),
-                style = MaterialTheme.typography.headlineLarge
+            OriInsertFields(
+                id = TaskId,
+                type = "Task",
+                body = stringResource(R.string.body_task),
+                hint = stringResource(R.string.hint_task),
+                name = TaskName,
+                desc = TaskDesc,
+                onNameChange = { TaskName = it },
+                onDescChange = { TaskDesc = it }
             )
-            Text(
-                text = stringResource(R.string.desc_task),
-                modifier = Modifier.padding(horizontal = 4.dp)
+
+            OriDateField(
+                dueDate = TaskDue,
+                onShowDateDialog = { showDateDialog = true }
             )
-            Text(
-                text = stringResource(R.string.hint_task),
-                modifier = Modifier.padding(4.dp),
-                fontStyle = FontStyle.Italic
-            )
-            TextField(
-                value = TaskName,
-                onValueChange = { TaskName = it },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                label = { Text("Name") },
-                singleLine = true
-            )
-            TextField(
-                value = TaskDesc,
-                onValueChange = { TaskDesc = it },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                label = { Text("Description") },
-                singleLine = false
-            )
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                TextField(
-                    value = formatDate(TaskDue),
-                    onValueChange = {},
-                    modifier = Modifier
-                        .weight(3f)
-                        .padding(8.dp),
-                    readOnly = true,
-                    label = { Text("Due By") },
-                    singleLine = true
-                )
-                FilledTonalButton(
-                    onClick = { showDatePicker = true },
-                    modifier = Modifier
-                        .weight(2f)
-                        .padding(8.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.EditCalendar,
-                        contentDescription = null
-                    )
-                }
-            }
+
             Spacer(modifier = Modifier.weight(1f))
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                FilledTonalButton(
-                    onClick = {
-                        taskViewModel.insert(
-                            Task(
-                                taskId = TaskId,
-                                taskName = TaskName,
-                                taskDesc = if (TaskDesc == "") null else TaskDesc,
-                                taskDue = TaskDue,
-                                taskComp = TaskComp
-                            )
+            OriInsertNav(
+                onSave = {
+                    taskViewModel.insert(
+                        Task(
+                            taskId = TaskId,
+                            taskName = TaskName,
+                            taskDesc = if (TaskDesc == "") null else TaskDesc,
+                            taskDue = TaskDue,
+                            taskComp = TaskComp
                         )
-                        returnToView()
-                    }
-                ) {
-                    Text(
-                        text = stringResource(R.string.button_confirm),
-                        style = MaterialTheme.typography.bodyLarge
                     )
-                }
-
-                FilledTonalButton(
-                    onClick = { returnToView() }
-                ) {
-                    Text(
-                        text = stringResource(R.string.button_cancel),
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                }
-            }
+                    returnToView()
+                },
+                onExit = { returnToView() }
+            )
         }
-        if (showDatePicker) {
-            DatePicker(
+
+        if (showDateDialog) {
+            OriDateDialog(
                 onDateSelected = {
                     TaskDue = it
-                    showDatePicker = false
+                    showDateDialog = false
                 },
                 selectedDate = TaskDue
             )

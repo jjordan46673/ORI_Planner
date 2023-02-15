@@ -21,7 +21,7 @@ import com.yyttrium.oriplanner.ui.theme.ORIPlannerTheme
 fun OriCard(
     expanded: Boolean,
     overdue: Boolean? = null,
-    title: String,
+    name: String,
     desc: String?,
     due: String? = null,
     progress: Float? = null,
@@ -56,7 +56,7 @@ fun OriCard(
                 .padding(8.dp)
         ) {
             Text(
-                text = title,
+                text = name,
                 modifier = Modifier
                     .padding(top = 8.dp, start = 8.dp, end = 8.dp, bottom = 0.dp),
                 fontWeight = FontWeight.SemiBold,
@@ -106,27 +106,12 @@ fun OriCard(
 @Preview
 @Composable
 fun PreviewCardSprintCollapsed() {
-    ORIPlannerTheme() {
+    ORIPlannerTheme {
         OriCard(
             expanded = false,
             overdue = false,
-            title = "Sample Sprint",
+            name = "Sample Sprint",
             desc = null,
-            onClick = {},
-            onLongClick = {}
-        )
-    }
-}
-
-@Preview
-@Composable
-fun PreviewCardSprintExpandedOverdue() {
-    ORIPlannerTheme() {
-        OriCard(
-            expanded = true,
-            overdue = true,
-            title = "Sample Sprint",
-            desc = "sample text\nsample text\nsample text",
             onClick = {},
             onLongClick = {}
         )
@@ -136,28 +121,12 @@ fun PreviewCardSprintExpandedOverdue() {
 @Preview
 @Composable
 fun PreviewCardTaskCollapsed() {
-    ORIPlannerTheme() {
+    ORIPlannerTheme {
         OriCard(
             expanded = false,
             overdue = false,
-            title = "Sample Task",
+            name = "Sample Task",
             desc = null,
-            due = "12-25",
-            onClick = {},
-            onLongClick = {}
-        )
-    }
-}
-
-@Preview
-@Composable
-fun PreviewCardTaskExpandedOverdue() {
-    ORIPlannerTheme() {
-        OriCard(
-            expanded = true,
-            overdue = true,
-            title = "Sample Task",
-            desc = "sample text\nsample text\nsample text",
             due = "12-25",
             onClick = {},
             onLongClick = {}
@@ -168,10 +137,10 @@ fun PreviewCardTaskExpandedOverdue() {
 @Preview
 @Composable
 fun PreviewCardGoalCollapsed() {
-    ORIPlannerTheme() {
+    ORIPlannerTheme {
         OriCard(
             expanded = false,
-            title = "Sample Goal",
+            name = "Sample Goal",
             desc = null,
             progress = 0.4f,
             onClick = {},
@@ -182,11 +151,42 @@ fun PreviewCardGoalCollapsed() {
 
 @Preview
 @Composable
-fun PreviewCardGoalExpanded() {
-    ORIPlannerTheme() {
+fun PreviewCardSprintExpandedOverdue() {
+    ORIPlannerTheme {
         OriCard(
             expanded = true,
-            title = "Sample Goal",
+            overdue = true,
+            name = "Sample Sprint",
+            desc = "sample text\nsample text\nsample text",
+            onClick = {},
+            onLongClick = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+fun PreviewCardTaskExpandedOverdue() {
+    ORIPlannerTheme {
+        OriCard(
+            expanded = true,
+            overdue = true,
+            name = "Sample Task",
+            desc = "sample text\nsample text\nsample text",
+            due = "12-25",
+            onClick = {},
+            onLongClick = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+fun PreviewCardGoalExpanded() {
+    ORIPlannerTheme {
+        OriCard(
+            expanded = true,
+            name = "Sample Goal",
             desc = "sample text\nsample text\nsample text",
             progress = 0.65f,
             onClick = {},

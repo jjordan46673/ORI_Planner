@@ -27,7 +27,7 @@ fun OriFloatingActionButton(
 @Preview
 @Composable
 fun PreviewFloatingActionButton() {
-    ORIPlannerTheme() {
+    ORIPlannerTheme {
         OriFloatingActionButton {}
     }
 }
