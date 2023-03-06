@@ -17,7 +17,8 @@ import com.yyttrium.oriplanner.ui.theme.ORIPlannerTheme
 @Composable
 fun OriInsertNav(
     onSave: () -> Unit,
-    onExit: () -> Unit
+    onExit: () -> Unit,
+    altSave: Boolean = false
 ) {
     Row(
         modifier = Modifier
@@ -34,7 +35,11 @@ fun OriInsertNav(
             modifier = Modifier.weight(3f)
         ) {
             Text(
-                stringResource(R.string.button_confirm),
+                text =
+                if (altSave)
+                    stringResource(R.string.button_goal_tasks)
+                else
+                    stringResource(R.string.button_confirm),
                 style = MaterialTheme.typography.bodyLarge
             )
         }
@@ -63,6 +68,20 @@ fun PreviewInsertNav() {
             OriInsertNav(
                 onSave = {},
                 onExit = {}
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun PreviewInsertNavGoals() {
+    ORIPlannerTheme {
+        Surface() {
+            OriInsertNav(
+                onSave = {},
+                onExit = {},
+                altSave = true
             )
         }
     }

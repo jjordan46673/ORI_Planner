@@ -18,8 +18,7 @@ import java.time.LocalDate
 
 @Composable
 fun SprintView(
-    sprintViewModel: ISprintViewModel,
-    navController: NavController
+    sprintViewModel: ISprintViewModel, navController: NavController
 ) {
     val allSprints by sprintViewModel.getAll.collectAsState(initial = listOf())
 
@@ -36,42 +35,35 @@ fun SprintView(
                             dampingRatio = Spring.DampingRatioLowBouncy,
                             stiffness = Spring.StiffnessMediumLow
                         )
-                    ),
-                verticalAlignment = Alignment.CenterVertically
+                    ), verticalAlignment = Alignment.CenterVertically
             ) {
                 Box(modifier = Modifier.weight(1f)) {
-                    OriCard(
-                        expanded = expanded,
-                        overdue = (sprint.sprintDue != LocalDate.now().toString()),
+                    OriCard(expanded = expanded,
+                        overdue = sprint.sprintDue != LocalDate.now().toString(),
                         name = sprint.sprintName,
                         desc = sprint.sprintDesc,
+                        comp = sprint.sprintComp,
                         onClick = { expanded = !expanded },
                         onLongClick = {
                             navController.navigate(
                                 Screen.SprintInsert.route + sprint.sprintId.toString()
                             )
-                        }
-                    )
+                        })
                 }
 
-                OriCheckbox(
-                    checked = sprint.sprintComp,
-                    expanded = expanded,
-                    onCheckedChange = {
-                        sprintViewModel.insert(
-                            Sprint(
-                                sprintId = sprint.sprintId,
-                                sprintName = sprint.sprintName,
-                                sprintDesc = sprint.sprintDesc,
-                                sprintDue = sprint.sprintDue,
-                                sprintComp = !sprint.sprintComp
-                            )
+                OriCheckbox(checked = sprint.sprintComp, expanded = expanded, onCheckedChange = {
+                    sprintViewModel.insert(
+                        Sprint(
+                            sprintId = sprint.sprintId,
+                            sprintName = sprint.sprintName,
+                            sprintDesc = sprint.sprintDesc,
+                            sprintDue = sprint.sprintDue,
+                            sprintComp = !sprint.sprintComp
                         )
-                    },
-                    onDelete = {
-                        sprintViewModel.delete(sprint)
-                    }
-                )
+                    )
+                }, onDelete = {
+                    sprintViewModel.delete(sprint)
+                })
             }
         }
     }

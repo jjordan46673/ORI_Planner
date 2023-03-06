@@ -26,6 +26,7 @@ sealed class Screen(val route: String) {
     object SprintInsert: Screen("SprintInsert/")
     object TaskInsert: Screen("TaskInsert/")
     object GoalInsert: Screen("GoalInsert/")
+    object GoalTask: Screen("GoalTask/")
 
     object Settings: Screen("Settings")
 }
@@ -102,73 +103,83 @@ fun AppScaffold(
             Surface(
                 modifier = Modifier.padding(innerPadding)
             ) {
-                // Navigation host
                 NavHost(
                     navController = navController,
                     startDestination = Screen.SprintView.route
                 ) {
-                    // Sprint View
+
                     composable(
                         route = Screen.SprintView.route,
                         content = { SprintView(sprintViewModel, navController) }
                     )
 
-                    // Sprint Insert
                     composable(
                         route = Screen.SprintInsert.route + "{id}",
                         arguments = listOf(navArgument("id") { type = NavType.IntType }),
                         content = { backStackEntry ->
                             SprintInsert(
-                                sprintViewModel = sprintViewModel,
                                 id = backStackEntry.arguments!!.getInt("id"),
-                                navController = navController
+                                sprintViewModel = sprintViewModel,
+                                navController = navController,
                             )
                         }
                     )
 
-                    // Task View
                     composable(
                         route = Screen.TaskView.route,
                         content = { TaskView(taskViewModel, navController) }
                     )
 
-                    // Task Insert
                     composable(
                         route = Screen.TaskInsert.route + "{id}",
                         arguments = listOf(navArgument("id") { type = NavType.IntType }),
                         content = { backStackEntry ->
                             TaskInsert(
-                                taskViewModel = taskViewModel,
                                 id = backStackEntry.arguments!!.getInt("id"),
+                                taskViewModel = taskViewModel,
                                 navController = navController
                             )
                         }
                     )
 
-                    // Goal View
                     composable(
                         route = Screen.GoalView.route,
                         content = {
-                            GoalView(
-                                goalViewModel,
-                                taskViewModel,
-                                navController
-                            )
+                            GoalView(goalViewModel, taskViewModel, navController)
                         }
                     )
 
-                    // Goal Insert
                     composable(
                         route = Screen.GoalInsert.route + "{id}",
                         arguments = listOf(navArgument("id") { type = NavType.IntType }),
                         content = { backStackEntry ->
                             GoalInsert(
-                                goalViewModel = goalViewModel,
                                 id = backStackEntry.arguments!!.getInt("id"),
+                                goalViewModel = goalViewModel,
                                 navController = navController
                             )
                         }
                     )
+
+                    composable(
+                        route = Screen.GoalTask.route + "{id}",
+                        arguments = listOf(navArgument("id") { type = NavType.IntType }),
+                        content = { backStackEntry ->
+                            GoalTask(
+                                id = backStackEntry.arguments!!.getInt("id"),
+                                taskViewModel = taskViewModel,
+                                navController = navController
+                            )
+                        }
+                    )
+
+                    composable(
+                        route = Screen.Settings.route,
+                        content = {
+                            Settings()
+                        }
+                    )
+
                 }
             }
         }

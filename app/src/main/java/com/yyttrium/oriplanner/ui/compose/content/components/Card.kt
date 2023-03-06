@@ -11,12 +11,14 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.yyttrium.oriplanner.data.Task
+import com.yyttrium.oriplanner.data.TaskViewModel
 import com.yyttrium.oriplanner.ui.theme.ORIPlannerTheme
 
+// TODO finish check tasks in goal
 @Composable
 fun OriCard(
     expanded: Boolean,
@@ -24,9 +26,12 @@ fun OriCard(
     name: String,
     desc: String?,
     due: String? = null,
+    comp: Boolean? = null,
     progress: Float? = null,
+    tasks: List<Task>? = null,
     onClick: () -> Unit,
-    onLongClick: () -> Unit
+    onLongClick: () -> Unit,
+    taskViewModel: TaskViewModel? = null
 ) {
     Card(
         modifier = Modifier
@@ -38,14 +43,15 @@ fun OriCard(
                 )
             )
             .combinedClickable(
-                role = Role.Image,
                 onClick = onClick,
                 onLongClick = onLongClick
             ),
         colors = CardDefaults.cardColors(
             containerColor =
-            if (overdue == true)
+            if (overdue == true && comp == false)
                 MaterialTheme.colorScheme.error
+            else if (comp == true)
+                MaterialTheme.colorScheme.tertiary
             else
                 MaterialTheme.colorScheme.primary
         )
@@ -78,9 +84,10 @@ fun OriCard(
                         .fillMaxWidth()
                         .height(8.dp)
                         .padding(horizontal = 8.dp),
-                    color = MaterialTheme.colorScheme.tertiary,
-                    trackColor = MaterialTheme.colorScheme.onTertiary
+                    color = MaterialTheme.colorScheme.inversePrimary,
+                    trackColor = MaterialTheme.colorScheme.onPrimary
                 )
+                Spacer(modifier = Modifier.height(4.dp))
                 if (expanded) {
                     Spacer(modifier = Modifier.height(8.dp))
                 }
@@ -99,6 +106,13 @@ fun OriCard(
                     )
                 }
             }
+            if (expanded && (tasks != null)) {
+                Spacer(modifier = Modifier.height(8.dp))
+                OriList(
+                    tasks = tasks,
+                    taskViewModel = taskViewModel!!
+                )
+            }
         }
     }
 }
@@ -112,6 +126,23 @@ fun PreviewCardSprintCollapsed() {
             overdue = false,
             name = "Sample Sprint",
             desc = null,
+            comp = false,
+            onClick = {},
+            onLongClick = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+fun PreviewCardSprintExpandedOverdue() {
+    ORIPlannerTheme {
+        OriCard(
+            expanded = true,
+            overdue = true,
+            name = "Sample Sprint",
+            desc = "sample text\nsample text\nsample text",
+            comp = false,
             onClick = {},
             onLongClick = {}
         )
@@ -128,6 +159,24 @@ fun PreviewCardTaskCollapsed() {
             name = "Sample Task",
             desc = null,
             due = "12-25",
+            comp = false,
+            onClick = {},
+            onLongClick = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+fun PreviewCardTaskExpandedOverdue() {
+    ORIPlannerTheme {
+        OriCard(
+            expanded = true,
+            overdue = true,
+            name = "Sample Task",
+            desc = "sample text\nsample text\nsample text",
+            due = "12-25",
+            comp = false,
             onClick = {},
             onLongClick = {}
         )
@@ -151,37 +200,6 @@ fun PreviewCardGoalCollapsed() {
 
 @Preview
 @Composable
-fun PreviewCardSprintExpandedOverdue() {
-    ORIPlannerTheme {
-        OriCard(
-            expanded = true,
-            overdue = true,
-            name = "Sample Sprint",
-            desc = "sample text\nsample text\nsample text",
-            onClick = {},
-            onLongClick = {}
-        )
-    }
-}
-
-@Preview
-@Composable
-fun PreviewCardTaskExpandedOverdue() {
-    ORIPlannerTheme {
-        OriCard(
-            expanded = true,
-            overdue = true,
-            name = "Sample Task",
-            desc = "sample text\nsample text\nsample text",
-            due = "12-25",
-            onClick = {},
-            onLongClick = {}
-        )
-    }
-}
-
-@Preview
-@Composable
 fun PreviewCardGoalExpanded() {
     ORIPlannerTheme {
         OriCard(
@@ -189,6 +207,38 @@ fun PreviewCardGoalExpanded() {
             name = "Sample Goal",
             desc = "sample text\nsample text\nsample text",
             progress = 0.65f,
+            onClick = {},
+            onLongClick = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+fun PreviewCardSprintOverdue() {
+    ORIPlannerTheme {
+        OriCard(
+            expanded = false,
+            overdue = true,
+            name = "Sample Sprint",
+            desc = null,
+            comp = false,
+            onClick = {},
+            onLongClick = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+fun PreviewCardSprintComplete() {
+    ORIPlannerTheme {
+        OriCard(
+            expanded = false,
+            overdue = true,
+            name = "Sample Sprint",
+            desc = null,
+            comp = true,
             onClick = {},
             onLongClick = {}
         )

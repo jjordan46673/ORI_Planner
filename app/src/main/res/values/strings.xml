@@ -16,6 +16,7 @@
     <!--ItemInsert Buttons-->
     <string name="button_confirm">Save</string>
     <string name="button_cancel">Cancel</string>
+    <string name="button_goal_tasks">Tasks</string>
 
     <!--SprintInsert Greetings-->
     <string name="body_sprint">

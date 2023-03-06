@@ -42,10 +42,11 @@ fun TaskView(
                 Box(modifier = Modifier.weight(1f)) {
                     OriCard(
                         expanded = expanded,
-                        overdue = ((task.taskDue.compareTo(LocalDate.now().toString())) < 0),
+                        overdue = (task.taskDue.compareTo(LocalDate.now().toString())) < 0,
                         name = task.taskName,
                         desc = task.taskDesc,
                         due = task.taskDue.drop(5),
+                        comp = task.taskComp,
                         onClick = { expanded = !expanded },
                         onLongClick = {
                             navController.navigate(

@@ -19,67 +19,58 @@ import java.time.LocalDate
 
 @Composable
 fun TaskInsert(
-    taskViewModel: ITaskViewModel,
     id: Int,
+    taskViewModel: ITaskViewModel,
     navController: NavController
 ) {
     var showDateDialog by remember { mutableStateOf(false) }
-    val allTasks by taskViewModel.getAll.collectAsState(initial = listOf())
 
-    fun findTask(id: Int): Task {
-        var output = Task(taskName = "", taskDue = "")
-        for (task in allTasks) {
-            if (task.taskId == id) {
-                output = task
-                break
-            }
-        }
-        return output
-    }
+    taskViewModel.id = id
 
-    val editTask: Task =
-        if (id != 0) findTask(id)
-        else Task(taskName = "", taskDue = "")
+    val task: Task =
+        if (id != 0)
+            taskViewModel.getTask.collectAsState(
+                initial = Task(taskName = "", taskDue = "")
+            ).value
+        else
+            Task(taskName = "", taskDue = "")
 
-    val TaskId: Int = editTask.taskId
-    val TaskComp: Boolean = editTask.taskComp
+    var taskName by remember { mutableStateOf("") }
+    var taskDesc by remember { mutableStateOf("") }
+    var taskDue by remember { mutableStateOf("") }
 
-    var TaskName by remember { mutableStateOf("") }
-    TaskName = editTask.taskName
-    var TaskDesc by remember { mutableStateOf("") }
-    TaskDesc = editTask.taskDesc ?: ""
-    var TaskDue by remember { mutableStateOf("") }
-    TaskDue =
-        if (editTask.taskDue == "") LocalDate.now().toString()
-        else editTask.taskDue
-
-    fun returnToView() {
-        navController.navigate(Screen.TaskView.route)
-    }
+    val taskId: Int = task.taskId
+    taskName = task.taskName
+    taskDesc = task.taskDesc ?: ""
+    taskDue =
+        if (task.taskDue == "") LocalDate.now().toString()
+        else task.taskDue
+    val taskComp: Boolean = task.taskComp
+    val taskGoal: Int? = task.taskGoal
 
     Surface(
         modifier = Modifier
             .fillMaxHeight()
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(horizontal = 8.dp, vertical = 4.dp)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             OriInsertFields(
-                id = TaskId,
+                id = taskId,
                 type = "Task",
                 body = stringResource(R.string.body_task),
                 hint = stringResource(R.string.hint_task),
-                name = TaskName,
-                desc = TaskDesc,
-                onNameChange = { TaskName = it },
-                onDescChange = { TaskDesc = it }
+                name = taskName,
+                desc = taskDesc,
+                onNameChange = { taskName = it },
+                onDescChange = { taskDesc = it }
             )
 
             OriDateField(
-                dueDate = TaskDue,
+                dueDate = taskDue,
                 onShowDateDialog = { showDateDialog = true }
             )
 
@@ -89,26 +80,27 @@ fun TaskInsert(
                 onSave = {
                     taskViewModel.insert(
                         Task(
-                            taskId = TaskId,
-                            taskName = TaskName,
-                            taskDesc = if (TaskDesc == "") null else TaskDesc,
-                            taskDue = TaskDue,
-                            taskComp = TaskComp
+                            taskId = taskId,
+                            taskName = taskName,
+                            taskDesc = if (taskDesc == "") null else taskDesc,
+                            taskDue = taskDue,
+                            taskComp = taskComp,
+                            taskGoal = taskGoal
                         )
                     )
-                    returnToView()
+                    navController.navigate(Screen.TaskView.route)
                 },
-                onExit = { returnToView() }
+                onExit = { navController.navigate(Screen.TaskView.route) }
             )
         }
 
         if (showDateDialog) {
             OriDateDialog(
                 onDateSelected = {
-                    TaskDue = it
+                    taskDue = it
                     showDateDialog = false
                 },
-                selectedDate = TaskDue
+                selectedDate = taskDue
             )
         }
     }

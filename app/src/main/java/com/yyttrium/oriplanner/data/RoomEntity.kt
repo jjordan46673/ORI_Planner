@@ -1,8 +1,6 @@
 package com.yyttrium.oriplanner.data
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
 
 @Entity(tableName = "sprints")
 data class Sprint (
@@ -22,7 +20,8 @@ data class Task (
     @ColumnInfo(name = "description") val taskDesc: String? = null,
     @ColumnInfo(name = "due_date") val taskDue: String,
     @ColumnInfo(name = "complete") val taskComp: Boolean = false,
-)
+    @ColumnInfo(name = "goal_id") val taskGoal: Int? = null,
+    )
 
 @Entity (tableName = "goals")
 data class Goal (

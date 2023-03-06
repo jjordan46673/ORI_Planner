@@ -4,7 +4,7 @@ developed by: Justin Jordan
 
 platform: Android
 
-version: 0.1.1 pre-alpha
+version: 0.1.1b pre-alpha
 
 ## A New hORIzon
 
@@ -22,7 +22,7 @@ Instead of a bORIng checklist, ORI divides our to-do lists into three parts:
 - Tasks
 - Goals
 
-### Sprints: reORIent
+### Sprints: reORIent yourself every day
 
 Sprints are goals set at the beginning of the day.
 Ideally, while sipping your morning coffee, you can reflect on what you want to achieve by the day's end and record it in ORI.
@@ -30,7 +30,7 @@ It could be a responsibility, like you just remembered it's trash day, or you kn
 It could also be a personal goal, such as hitting the gym or giving someone a compliment.
 Think of Sprints like RUNNING towards a daily success.
 
-### Tasks: priORItize
+### Tasks: priORItize efficiency over worry
 
 Tasks are non-urgent responsibilities with a real deadline.
 This is the most general function of a to-do app.
@@ -38,7 +38,7 @@ You can record future tasks such as Christmas shopping, getting an oil change fo
 This app can also function as a calendar app, reminding you about doctor's appointments, lunch with friends, and important birthdays.
 Think of Tasks like WALKING towards an eventual success.
 
-### Goals: memORIes
+### Goals: memORIes are made here
 
 Goals are a little unique.
 Instead of a single achievable item, Goals are meant to hold multiple Tasks and display them as a group.
@@ -48,27 +48,25 @@ For example, hit your fitness goals by getting a gym membership, exercising thri
 Think of Goals like HIKING.
 It will take a lot of WALKING, but you'll eventually end up wherever you want to go.
 
-## Fellow Learners
+## Roadmap
 
-This app was a product of passion, but it was also an opportunity to learn how to develop android applications.
-In this section, I'll be taking notes about what I've learned in hopes of helping someone else understand.
+Current Task:
 
-### Navigating the Code
+> Develop/Debug Goals (GoalTasks page)
 
-To get to the bulk of the code, the navigation path is:
+To Completion:
 
-> app > src > main > java > com > yyttrium > oriplanner
+- Build settings page
+- Implement settings
 
-Here, you'll find two folders, labeled *data* and *ui*, and three loose files.
+Improvements
 
-### Tools
+- Cannot add card without giving it a name
+- Clearer that description is not required
+- FAB disappears when scrolling down 
+- Swipe between Sprints|Tasks|Goals
 
-Everything here was written in Kotlin, aside from some minor tweaks in XML and basic queries in SQL.
-The app uses Jetpack, which is a suite of tools provided by Google for Android development.
-The tools used in this app include:
+Bugs
 
-- Compose, a complete UI framework that helps adhere to Material 3 Design standards
-- Room, which generates and queries a local database, and sets up for web queries in the future
-- Hilt, to manage the icky dependency injection in the background (and my hero)
-- Lifecycle, which dynamically queries only necessary data and takes a load off the hardware
-- Navigation, to handle changes in the UI and pass information between views
+- While card is expanded, if checked/unchecked, the card at its previous position inherits the open state, and the correct card loses it
+- Motion lags for the first ~15 seconds, then smooths (development mode issue?)

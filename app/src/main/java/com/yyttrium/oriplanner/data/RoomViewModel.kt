@@ -2,26 +2,32 @@ package com.yyttrium.oriplanner.data
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 interface ISprintViewModel {
+    var id: Int
     val getAll: Flow<List<Sprint>>
+    val getSprint: Flow<Sprint>
     fun insert(sprint: Sprint)
     fun delete(sprint: Sprint)
 }
 
 interface ITaskViewModel {
+    var id: Int
+    var goalId: Int
     val getAll: Flow<List<Task>>
+    val getTask: Flow<Task>
+    val getTaskByGoal: Flow<List<Task>>
     fun insert(task: Task)
     fun delete(task: Task)
 }
 
 interface IGoalViewModel {
+    var id: Int
     val getAll: Flow<List<Goal>>
+    val getGoal: Flow<Goal>
     fun insert(goal: Goal)
     fun delete(goal: Goal)
 }
@@ -34,8 +40,13 @@ class SprintViewModel
 
     private val ioScope = CoroutineScope(Dispatchers.IO)
 
+    override var id = 0
+
     override val getAll: Flow<List<Sprint>>
         get() = sprintRepository.getAll()
+
+    override val getSprint: Flow<Sprint>
+        get() = sprintRepository.getSprint(id)
 
     override fun insert(sprint: Sprint) {
         ioScope.launch {
@@ -58,8 +69,17 @@ class TaskViewModel
 
     private val ioScope = CoroutineScope(Dispatchers.IO)
 
+    override var id = 0
+    override var goalId = 0
+
     override val getAll: Flow<List<Task>>
         get() = taskRepository.getAll()
+
+    override val getTask: Flow<Task>
+        get() = taskRepository.getTask(id)
+
+    override val getTaskByGoal: Flow<List<Task>>
+        get() = taskRepository.getTaskByGoal(goalId)
 
     override fun insert(task: Task) {
         ioScope.launch {
@@ -82,8 +102,13 @@ class GoalViewModel
 
     private val ioScope = CoroutineScope(Dispatchers.IO)
 
+    override var id = 0
+
     override val getAll: Flow<List<Goal>>
         get() = goalRepository.getAll()
+
+    override val getGoal: Flow<Goal>
+        get() = goalRepository.getGoal(id)
 
     override fun insert(goal: Goal) {
         ioScope.launch {

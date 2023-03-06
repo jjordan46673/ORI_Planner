@@ -17,47 +17,27 @@ import java.time.LocalDate
 
 @Composable
 fun SprintInsert(
-    sprintViewModel: ISprintViewModel,
     id: Int,
-    navController: NavController
+    sprintViewModel: ISprintViewModel,
+    navController: NavController,
 ) {
-    // TODO move from getAll to getSprint()
-    /*
-    attempt 1: "initial" is not well documented
-    tried "null" with strange results
-    tried returning a list of 1 items with strange results
-    tried alternate "collect" commands with no success
-    path - dao > repository > view model > content
-    */
-    // TODO view should be scrollable
-    val allSprints by sprintViewModel.getAll.collectAsState(initial = listOf())
+    sprintViewModel.id = id
 
-    fun findSprint(id: Int): Sprint {
-        var output = Sprint(sprintName = "", sprintDue = "")
-        for (sprint in allSprints) {
-            if (sprint.sprintId == id) {
-                output = sprint
-                break
-            }
-        }
-        return output
-    }
+    val sprint: Sprint =
+        if (id != 0)
+            sprintViewModel.getSprint.collectAsState(
+                initial = Sprint(sprintName = "", sprintDue = "")
+            ).value
+        else
+            Sprint(sprintName = "", sprintDue = "")
 
-    val editSprint: Sprint =
-        if (id != 0) findSprint(id)
-        else Sprint(sprintName = "", sprintDue = "")
+    var sprintName by remember { mutableStateOf("") }
+    var sprintDesc by remember { mutableStateOf("") }
 
-    val SprintId: Int = editSprint.sprintId
-    val SprintComp: Boolean = editSprint.sprintComp
-
-    var SprintName by remember { mutableStateOf("") }
-    SprintName = editSprint.sprintName
-    var SprintDesc by remember { mutableStateOf("") }
-    SprintDesc = editSprint.sprintDesc ?: ""
-
-    fun returnToView() {
-        navController.navigate(Screen.SprintView.route)
-    }
+    val sprintId: Int = sprint.sprintId
+    sprintName = sprint.sprintName
+    sprintDesc = sprint.sprintDesc ?: ""
+    val sprintComp: Boolean = sprint.sprintComp
 
     Surface(
         modifier = Modifier
@@ -71,14 +51,14 @@ fun SprintInsert(
         ) {
 
             OriInsertFields(
-                id = SprintId,
+                id = sprintId,
                 type = "Sprint",
                 body = stringResource(R.string.body_sprint),
                 hint = stringResource(R.string.hint_sprint),
-                name = SprintName,
-                desc = SprintDesc,
-                onNameChange = { SprintName = it },
-                onDescChange = { SprintDesc = it }
+                name = sprintName,
+                desc = sprintDesc,
+                onNameChange = { sprintName = it },
+                onDescChange = { sprintDesc = it }
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -87,16 +67,16 @@ fun SprintInsert(
                 onSave = {
                     sprintViewModel.insert(
                         Sprint(
-                            sprintId = SprintId,
-                            sprintName = SprintName,
-                            sprintDesc = if (SprintDesc == "") null else SprintDesc,
+                            sprintId = sprintId,
+                            sprintName = sprintName,
+                            sprintDesc = if (sprintDesc == "") null else sprintDesc,
                             sprintDue = LocalDate.now().toString(),
-                            sprintComp = SprintComp
+                            sprintComp = sprintComp
                         )
                     )
-                    returnToView()
+                    navController.navigate(Screen.SprintView.route)
                 },
-                onExit = { returnToView() }
+                onExit = { navController.navigate(Screen.SprintView.route) }
             )
         }
     }

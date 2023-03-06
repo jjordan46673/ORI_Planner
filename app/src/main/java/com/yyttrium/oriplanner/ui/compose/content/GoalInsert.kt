@@ -16,38 +16,25 @@ import com.yyttrium.oriplanner.ui.compose.content.components.OriInsertNav
 
 @Composable
 fun GoalInsert(
-    goalViewModel: IGoalViewModel,
     id: Int,
+    goalViewModel: IGoalViewModel,
     navController: NavController
 ) {
-    val allGoals by goalViewModel.getAll.collectAsState(initial = listOf())
+    goalViewModel.id = id
 
-    fun findGoal(id: Int): Goal {
-        var output = Goal(goalName = "")
-        for (goal in allGoals) {
-            if (goal.goalId == id) {
-                output = goal
-                break
-            }
-        }
-        return output
-    }
-
-    val editGoal: Goal =
-        if (id != 0) findGoal(id)
+    val goal: Goal =
+        if (id != 0)
+            goalViewModel.getGoal.collectAsState(
+                initial = Goal(goalName = "")
+            ).value
         else Goal(goalName = "")
 
-    val GoalId: Int = editGoal.goalId
+    var goalName by remember { mutableStateOf("") }
+    var goalDesc by remember { mutableStateOf("") }
 
-    var GoalName by remember { mutableStateOf("") }
-    GoalName = editGoal.goalName
-    var GoalDesc by remember { mutableStateOf("") }
-    GoalDesc = editGoal.goalDesc ?: ""
-
-
-    fun returnToView() {
-        navController.navigate(Screen.GoalView.route)
-    }
+    val goalId: Int = goal.goalId
+    goalName = goal.goalName
+    goalDesc = goal.goalDesc ?: ""
 
     Surface(
         modifier = Modifier
@@ -61,14 +48,14 @@ fun GoalInsert(
         ) {
 
             OriInsertFields(
-                id = GoalId,
+                id = goalId,
                 type = "Goal",
                 body = stringResource(R.string.body_goal),
                 hint = stringResource(R.string.hint_goal),
-                name = GoalName,
-                desc = GoalDesc,
-                onNameChange = { GoalName = it },
-                onDescChange = { GoalDesc = it }
+                name = goalName,
+                desc = goalDesc,
+                onNameChange = { goalName = it },
+                onDescChange = { goalDesc = it }
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -77,14 +64,15 @@ fun GoalInsert(
                 onSave = {
                     goalViewModel.insert(
                         Goal(
-                            goalId = GoalId,
-                            goalName = GoalName,
-                            goalDesc = if (GoalDesc == "") null else GoalDesc,
+                            goalId = goalId,
+                            goalName = goalName,
+                            goalDesc = if (goalDesc == "") null else goalDesc,
                         )
                     )
-                    returnToView()
+                    navController.navigate(Screen.GoalTask.route + goalId.toString())
                 },
-                onExit = { returnToView() }
+                onExit = { navController.navigate(Screen.GoalView.route) },
+                altSave = true
             )
         }
     }
